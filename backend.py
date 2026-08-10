@@ -7,11 +7,11 @@ from langchain_core.output_parsers import StrOutputParser
 from langchain_experimental.text_splitter import SemanticChunker
 from langchain_community.vectorstores import FAISS
 from langchain_core.runnables import RunnableParallel,RunnablePassthrough
-from dotenv import load_dotenv
 from io import BytesIO
 from langchain_core.documents import Document
 from pypdf import PdfReader
-load_dotenv()
+# load_dotenv()
+# from dotenv import load_dotenv        # used when on local machine 
 import os
 
 # from pathlib import Path
@@ -48,10 +48,10 @@ def get_embedding_model():
 
 @st.cache_resource
 def get_llm():
-    # groq_api_key = st.secrets.get("GROQ_API_KEY", os.getenv("GROQ_API_KEY"))
-    # gemini_api_key = st.secrets.get("GEMINI_API_KEY", os.getenv("GEMINI_API_KEY"))
-    # primary_llm = ChatGroq(model='openai/gpt-oss-120b',api_key=groq_api_key)
-    # secondary_llm = ChatGoogleGenerativeAI(model='gemini-3.5-flash',api_key=gemini_api_key)
+    groq_api_key = st.secrets.get("GROQ_API_KEY", os.getenv("GROQ_API_KEY"))
+    gemini_api_key = st.secrets.get("GEMINI_API_KEY", os.getenv("GEMINI_API_KEY"))
+    primary_llm = ChatGroq(model='openai/gpt-oss-120b',api_key=groq_api_key)
+    secondary_llm = ChatGoogleGenerativeAI(model='gemini-3.5-flash',api_key=gemini_api_key)
     # # it will ensure that same structure can be used either we are loading api key from local machine or from streamlit cloud secrets
 
 
