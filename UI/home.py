@@ -20,10 +20,10 @@ from backend import prepare_to_chat
 
 def render_home():
     st.title("Welcome to the pdf chatbot!!!! ")
-    st.header("File upload instructions")
-    st.subheader("please upload textual pdfs only.")
-    st.subheader("Currently we don't have support for scanned pdfs")
-    st.subheader(" More updates are on the way!!!!!!")
+    info = """ 1. please upload textual files only 
+    2. Currently we don't have support for scanned pdfs
+    3.  More updates are on the way!!! """
+    st.info(body=info)
     file_uploader_result = st.file_uploader(label='please choose your file',type='pdf',key='file_uploader',max_upload_size=5)
     if file_uploader_result:
         st.session_state['file_object'] = file_uploader_result
