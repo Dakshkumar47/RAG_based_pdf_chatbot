@@ -1,0 +1,13 @@
+streamlit
+streamlit-pdf-viewer
+pypdf
+python-dotenv
+langchain
+langchain-core
+langchain-community
+langchain-experimental
+langchain-groq
+langchain-google-genai
+langchain-huggingface
+faiss-cpu
+sentence-transformers
