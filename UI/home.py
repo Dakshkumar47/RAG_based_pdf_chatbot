@@ -20,6 +20,10 @@ from backend import prepare_to_chat
 
 def render_home():
     st.title("Welcome to the pdf chatbot!!!! ")
+    st.header("File upload instructions")
+    st.subheader("please upload textual pdfs only.")
+    st.subheader("Currently we don't have support for scanned pdfs")
+    st.subheader(" More updates are on the way!!!!!!")
     file_uploader_result = st.file_uploader(label='please choose your file',type='pdf',key='file_uploader',max_upload_size=5)
     if file_uploader_result:
         st.session_state['file_object'] = file_uploader_result
@@ -29,7 +33,7 @@ def render_home():
         # the code above is needed if we save the file to disk and then access it
             
         if st.session_state['file_object'] == '':
-            st.warning("please upload a file first")
+            st.warning("please upload a file first or ensure that you have read the file upload instructions")
         else:
             st.session_state['state'] = 'chat'
             with st.spinner(show_time=True,text='getting your chatbot ready!!'):
