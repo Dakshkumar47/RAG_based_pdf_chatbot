@@ -23,6 +23,8 @@ from backend import prepare_to_chat, InvalidPdfError
 def render_home():
     st.title("Welcome to the pdf chatbot!!!! ")
     st.header("Please use textual PDFs only")
+    info = """ 1. please upload textual files only \n 2. Currently we don't have support for scanned pdfs \n 3.  More updates are on the way!!! """
+    st.info(body=info)
     
     # --- 1. NORMAL FILE UPLOAD SECTION ---
     file_uploader_result = st.file_uploader(label='Please choose your file', type='pdf', key='file_uploader', max_upload_size=5)
