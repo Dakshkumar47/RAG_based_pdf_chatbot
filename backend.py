@@ -18,7 +18,10 @@ import os
 # import os
 # from langchain_community.document_loaders import PyPDFLoader
 # the code above is needed if we save the file to disk and then access it
-
+class InvalidPdfError(Exception):
+    """handles errors when the uploaded pdf is in unexpexted format"""
+    def __init__(self,msg="Either you have uploaded an empty pdf or a pdf violating the upload instructions."):
+        super().__init__(msg)
 
 """Instead of putting network clients or machine learning models into st.session_state, you should use Streamlit's @st.cache_resource decorator. This is explicitly designed for things like database connections, API clients, and ML models so they safely persist across reruns without their connections closing."""
 # @st.cache_resource
@@ -74,15 +77,22 @@ def prepare_to_chat():
         # 1. Get the bytes directly from the Streamlit UploadedFile in RAM
         file_bytes = st.session_state['file_object'].getvalue()
         
-        # 2. Read the PDF from memory
-        pdf_reader = PdfReader(BytesIO(file_bytes))
-        
-        # 3. Extract text and convert them into LangChain Document objects
-        docs = []
-        for i, page in enumerate(pdf_reader.pages):
-            text = page.extract_text()
-            if text:
-                docs.append(Document(page_content=text, metadata={"page": i}))
+        try:
+            # 2. Read the PDF from memory
+            pdf_reader = PdfReader(BytesIO(file_bytes))
+            # 3. Extract text and convert them into LangChain Document objects
+            docs = []
+            for i, page in enumerate(pdf_reader.pages):
+                text = page.extract_text()
+                if text:
+                    docs.append(Document(page_content=text, metadata={"page": i}))
+
+        except Exception as e:
+            # Catch pypdf reading/parsing failures (corrupted file, password protected, etc.)
+            raise InvalidPdfError(f"Unable to read PDF file. It might be corrupted or encrypted. Details: {str(e)}")
+
+        if not docs:
+            raise InvalidPdfError
                 
         st.session_state['loaded_pdf'] = docs
 
